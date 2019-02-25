@@ -7,8 +7,21 @@ import (
 	"strconv"
 )
 
+var replayData []byte
+
 func init() {
 	http.HandleFunc("/garbage", garbageHandler)
+}
+
+func SetReplay(r bool) {
+	if r {
+		replayData = make([]byte, 1048576)
+		_, err := rand.Read(replayData)
+		if err != nil {
+			fmt.Println("error:", err)
+			return
+		}
+	}
 }
 
 func garbageHandler(w http.ResponseWriter, r *http.Request) {
@@ -21,11 +34,17 @@ func garbageHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
 	w.Header().Add("Cache-Control", "post-check=0, pre-check=0")
 	w.Header().Add("Pragma", "no-cache")
-	d := make([]byte, 1048576)
-	_, err := rand.Read(d)
-	if err != nil {
-		fmt.Println("error:", err)
-		return
+
+	var d []byte
+	if len(replayData) == 0 {
+		d = make([]byte, 1048576)
+		_, err := rand.Read(d)
+		if err != nil {
+			fmt.Println("error:", err)
+			return
+		}
+	} else {
+		d = replayData
 	}
 
 	cs := 4
