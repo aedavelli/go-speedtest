@@ -2,11 +2,12 @@ language: go
 script:
 - CGO_ENABLED=0 go build --ldflags "-extldflags \"-static\" -X main.meta_version=${TRAVIS_TAG:-0.0.0-dev}+${TRAVIS_BUILD_NUMBER}.${TRAVIS_COMMIT:0:7}"
 - sha1sum go-speedtest > go-speedtest.sha1
+- ls -ltrh
 deploy:
   provider: releases
   api_key:
     secure: DngDZpQ+pYvlMthOs3hp9PEbXpzSVjMSdExC5JU+iKMK72Uu2ZdmO8eqEFcaPPdL2wRQF+etZe9scPQ17ltZa7IKtlvV6mFm1SXOlAD+IR6to3Tp3Tj2Q4TU1q+iHWzXJdHBBJHOQgEM1807ZiKaMuv0dL8kSXb/2ilWt5C6FH6kFtyxnoTk4XDSsNf3UbaR/V45VfiyjjtAovt2c4M47Pq6u18fbMCUcMgRG7UbBvXwLxbMlLx+BZI+0URJf3tIJ/Az2de0BmdLSKlXDcPrWdEah29jASFCOz6rckgrP7BMn3zwySLv90NXPq9cFG2pX44Tqf/V6CGmP479X5b78F+SA+z0oiWz5qk3lLgAOQ6tHpH5+UqRHtOW1F96nKjQFf7VW/GTXPDVbh3Nu7IW1/2H3luJ+nL9pzve1OTup9qOk2HrXLUFL4ttVa1DL+pnwdvxtosKkP/wPJNQSIO5sAOOiV/ZRtp9kOQ0PTY4/spDX1S7rGnCsiFaVxiImF7qqsjoIQ9fPM8KgJI3o3718yiZu82yHiVq+UlkhtVUo7zh/b8euIFY93vnwgErIA2ssWzQO+9Srrnrlke1TaaikZLSv20ri3c6GiT4FhIId2Du+uw/xdOJwFPLYvfKaRpZEvLcae5G3sq8fTXLTlnc0D/qQt5yx6bjXiF+x4k+vo0=
-    file:
+  file:
     - go-speedtest
     - go-speedtest.sha1
   skip_cleanup: true
