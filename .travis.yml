@@ -1,0 +1,15 @@
+language: go
+script:
+- CGO_ENABLED=0 go build --ldflags "-extldflags \"-static\" -X main.meta_version=${TRAVIS_TAG:-0.0.0-dev}+${TRAVIS_BUILD_NUMBER}.${TRAVIS_COMMIT:0:7}"
+- sha1sum go-speedtest > go-speedtest.sha1
+deploy:
+  provider: releases
+  api_key:
+    secure: tGs5Dg0lVebRNwE3FlrGsQ
+  file: 
+    - go-speedtest
+    - go-speedtest.sha1
+  skip_cleanup: true
+  on:
+    repo: aedavelli/go-speed
+    tags: true
