@@ -11,5 +11,5 @@ deploy:
     - go-speedtest.sha1
   skip_cleanup: true
   on:
-    repo: aedavelli/go-speed
+    repo: aedavelli/go-speedtest
     tags: true
